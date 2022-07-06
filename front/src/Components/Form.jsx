@@ -3,14 +3,17 @@ import React, { useState } from 'react'
 import axios from "axios"
 import { Box, Button, Drawer, FilledInput, FormControl, FormLabel, Grid, InputLabel, TextField, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useForm } from "react-hook-form";
 const Form = ({ draweropen, setdraweropen }) => {
-    const [user, setuser] = useState({
+    const initialvalue = {
         FirstName: "",
         LastName: "",
         Email: "",
         Contact: "",
         Country: "",
-    })
+    }
+    const [user, setuser] = useState(initialvalue)
+    const { register, handleSubmit } = useForm();
     const { FirstName, LastName, Email, Contact, Country } = user
     const onInputChange = (e) => {
         console.log(e.target.value);
@@ -18,30 +21,30 @@ const Form = ({ draweropen, setdraweropen }) => {
     }
     const onSubmit = async (e) => {
 
-        if (FirstName.length == 0 && LastName.length==0 && Email.length==0 && Contact.length==0 && Country.length==0) {
-            alert('enter details')
-        }
-        else if (FirstName.length == 0) {
-            alert('enter First name')
-        }
-        else if (LastName.length == 0){
-            alert('enter Last name')
-        }
-        else if (Email.length == 0){
-            alert('enter Email name')
-        }
-        else if (Contact.length == 0) {
-            alert('enter Contact name')
-        }
-        else if (Country.length == 0) {
-            alert('enter Country name')
-        }
-       
+        // if (FirstName.length == 0 && LastName.length == 0 && Email.length == 0 && Contact.length == 0 && Country.length == 0) {
+        //     alert('enter details')
+        // }
+        // else if (FirstName.length == 0) {
+        //     alert('enter First name')
+        // }
+        // else if (LastName.length == 0) {
+        //     alert('enter Last name')
+        // }
+        // else if (Email.length == 0) {
+        //     alert('enter Email name')
+        // }
+        // else if (Contact.length == 0) {
+        //     alert('enter Contact name')
+        // }
+        // else if (Country.length == 0) {
+        //     alert('enter Country name')
+        // }
+
         // e.preventDefault();
-        else{
+        // else {
         await axios.post("http://localhost:8000/user", user)
-        
-    }
+
+        // }
         setdraweropen(false)
     }
 
@@ -54,111 +57,113 @@ const Form = ({ draweropen, setdraweropen }) => {
 
             >
                 <CancelIcon style={{ color: "red" }} onClick={() => setdraweropen(false)} />
-                <Box p={2} width="450px" role="presentation">
-                    <Typography variant="h5" textAlign="center">Form</Typography>
-                    <FormControl style={{ marginTop: "10px" }} >
+                <form onSubmit={(e) => onSubmit(e)}>
+                    <Box p={2} width="450px" role="presentation">
+                        <Typography variant="h5" textAlign="center">Form</Typography>
+                        <FormControl style={{ marginTop: "10px" }} >
 
-                        <Grid container>
-                            <Grid item xs={5} sx={{
-                                marginRight: "37px",
-                                marginLeft: "20px",
+                            <Grid container>
+                                <Grid item xs={5} sx={{
+                                    marginRight: "37px",
+                                    marginLeft: "20px",
 
-                            }}>
+                                }}>
 
-                                First Name
+                                    First Name
 
-                                <TextField
-                                    required
-                                    variant='outlined'
-                                    name='FirstName'
-                                    value={FirstName}
-                                    onChange={(e) => onInputChange(e)}
+                                    <TextField
+                                        required
+                                        variant='outlined'
+                                        name='FirstName'
+                                        value={FirstName}
+                                        onChange={(e) => onInputChange(e)}
 
-                                />
+                                    />
 
+                                </Grid>
+                                <Grid item xs={5}>
+
+
+                                    Last Name:
+
+                                    <TextField
+                                        required
+                                        variant='outlined'
+                                        name='LastName'
+                                        value={LastName}
+
+                                        onChange={(e) => onInputChange(e)}
+                                    />
+
+                                </Grid>
                             </Grid>
-                            <Grid item xs={5}>
 
+                        </FormControl>
+                        <FormControl fullWidth sx={{ m: 1 }} variant="filled" style={{ marginTop: "15px" }} >
+                            <div style={{ display: "flex", flexDirection: "column", textAlign: "left", marginLeft: "10px", marginRight: "20px" }}>
+                                <div>
+                                    Primary Email Address:
+                                </div>
+                                <div style={{ marginTop: "5px" }}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        variant='outlined'
+                                        name='Email'
+                                        value={Email}
 
-                                Last Name:
+                                        onChange={(e) => onInputChange(e)}
 
-                                <TextField
-                                    required
-                                    variant='outlined'
-                                    name='LastName'
-                                    value={LastName}
-
-                                    onChange={(e) => onInputChange(e)}
-                                />
-
-                            </Grid>
-                        </Grid>
-
-                    </FormControl>
-                    <FormControl fullWidth sx={{ m: 1 }} variant="filled" style={{ marginTop: "15px" }} >
-                        <div style={{ display: "flex", flexDirection: "column", textAlign: "left", marginLeft: "10px", marginRight: "20px" }}>
-                            <div>
-                                Primary Email Address:
+                                    />
+                                </div>
                             </div>
-                            <div style={{ marginTop: "5px" }}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    variant='outlined'
-                                    name='Email'
-                                    value={Email}
 
-                                    onChange={(e) => onInputChange(e)}
+                        </FormControl>
+                        <FormControl style={{ marginTop: "15px" }} >
 
-                                />
-                            </div>
-                        </div>
+                            <Grid container>
+                                <Grid item xs={5} sx={{
+                                    marginRight: "37px",
+                                    marginLeft: "20px",
 
-                    </FormControl>
-                    <FormControl style={{ marginTop: "15px" }} >
+                                }}>
 
-                        <Grid container>
-                            <Grid item xs={5} sx={{
-                                marginRight: "37px",
-                                marginLeft: "20px",
+                                    Contact Number:
 
-                            }}>
+                                    <TextField
+                                        required
+                                        variant='outlined'
+                                        name='Contact'
+                                        value={Contact}
 
-                                Contact Number:
+                                        onChange={(e) => onInputChange(e)}
+                                    />
 
-                                <TextField
-                                    required
-                                    variant='outlined'
-                                    name='Contact'
-                                    value={Contact}
+                                </Grid>
+                                <Grid item xs={5}>
 
-                                    onChange={(e) => onInputChange(e)}
-                                />
 
+                                    Country:
+
+                                    <TextField
+                                        required
+                                        variant='outlined'
+                                        name='Country'
+                                        value={Country}
+
+                                        onChange={(e) => onInputChange(e)}
+                                    />
+
+                                </Grid>
                             </Grid>
-                            <Grid item xs={5}>
+                            <br />
+                        </FormControl>
+                        <FormControl style={{ marginLeft: "20px" }} >
+                            <Button variant="contained" type="submit" >ADD</Button>
+                        </FormControl>
 
-
-                                Country:
-
-                                <TextField
-                                    required
-                                    variant='outlined'
-                                    name='Country'
-                                    value={Country}
-
-                                    onChange={(e) => onInputChange(e)}
-                                />
-
-                            </Grid>
-                        </Grid>
-                        <br />
-                    </FormControl>
-                    <FormControl style={{ marginLeft: "20px" }} >
-                        <Button variant="contained" onClick={e => onSubmit(e)}  >ADD</Button>
-                    </FormControl>
-
-                </Box>
+                    </Box>
+                </form>
             </Drawer>
         </>
     )
